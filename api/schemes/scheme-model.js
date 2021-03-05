@@ -57,7 +57,7 @@ const schemeSteps = schemeArray[0].step_id ? schemeArray.map(scheme =>
   }}
   ) : []
 
-console.log('schemeSteps: ', schemeSteps);
+// console.log('schemeSteps: ', schemeSteps);
 
 const schemeObject = {
   scheme_id: schemeArray[0].scheme_id,
@@ -131,7 +131,8 @@ const schemeSteps = schemeArray[0].step_id ? schemeArray.map(scheme =>
   {return {
     step_id: scheme.step_id,
     step_number: scheme.step_number,
-    instructions: scheme.instructions
+    instructions: scheme.instructions,
+    scheme_name: scheme.scheme_name
   }}
   ) : []
 
@@ -166,6 +167,7 @@ function add(scheme) {
   /*
     1D- This function creates a new scheme and resolves to _the newly created scheme_.
   */
+ return db('schemes').insert(scheme)
 }
 
 function addStep(scheme_id, step) {
