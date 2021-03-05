@@ -49,22 +49,22 @@ const schemeArray = await db.from('schemes as sc').leftJoin('steps as st', {'sc.
 
 // console.log('schemeArray: ', schemeArray[0]);
 
-const schemeSteps = schemeArray.map(scheme => 
+const schemeSteps = schemeArray[0].step_id ? schemeArray.map(scheme => 
   {return {
     step_id: scheme.step_id,
     step_number: scheme.step_number,
     instructions: scheme.instructions
   }}
-  )
+  ) : []
 
-// console.log('schemeSteps: ', schemeSteps);
+console.log('schemeSteps: ', schemeSteps);
 
 const schemeObject = {
   scheme_id: schemeArray[0].scheme_id,
   scheme_name: schemeArray[0].scheme_name,
   steps: schemeSteps
 }
-console.log('schemeObject: ', schemeObject);
+// console.log('schemeObject: ', schemeObject);
 return schemeObject;
 
 
@@ -122,7 +122,22 @@ return schemeObject;
   */
 }
 
-function findSteps(scheme_id) {
+async function findSteps(scheme_id) {
+  const schemeArray = await db.from('schemes as sc').leftJoin('steps as st', {'sc.scheme_id': 'st.scheme_id'}).select('sc.scheme_name', 'st.*').where('sc.scheme_id', scheme_id).orderBy('st.step_number');
+
+// console.log('schemeArray: ', schemeArray[0]);
+
+const schemeSteps = schemeArray[0].step_id ? schemeArray.map(scheme => 
+  {return {
+    step_id: scheme.step_id,
+    step_number: scheme.step_number,
+    instructions: scheme.instructions
+  }}
+  ) : []
+
+console.log('schemeSteps: ', schemeSteps);
+
+return schemeSteps
   // EXERCISE C
   /*
     1C- Build a query in Knex that returns the following data.
