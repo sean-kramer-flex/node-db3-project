@@ -52,8 +52,8 @@ router.get('/', (req, res, next) => {
     ]
   }
 */
-router.get('/:scheme_id', (req, res, next) => {
-  const { scheme_id } = req.params
+router.get('/:scheme_id', async (req, res, next) => {
+  const { scheme_id } = await req.params
 
   Schemes.findById(scheme_id)
     .then(scheme => {
@@ -133,9 +133,12 @@ async (req, res, next) => {
     }
   ]
 */
-router.post('/:scheme_id/steps', checkSchemeId, validateStep, (req, res, next) => {
-  const step = req.body
-  const { scheme_id } = req.params
+router.post('/:scheme_id/steps', 
+// checkSchemeId, 
+// validateStep, 
+async (req, res, next) => {
+  const step = await req.body
+  const { scheme_id } = await req.params
 
   Schemes.addStep(scheme_id, step)
     .then(allSteps => {

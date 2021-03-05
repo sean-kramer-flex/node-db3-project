@@ -28,6 +28,11 @@ function find() {
     .groupBy("sc.scheme_id");
 }
 
+
+
+
+
+
 async function findById(scheme_id) {
   // EXERCISE B
   /*
@@ -122,6 +127,9 @@ return schemeObject;
   */
 }
 
+
+
+
 async function findSteps(scheme_id) {
   const schemeArray = await db.from('schemes as sc').leftJoin('steps as st', {'sc.scheme_id': 'st.scheme_id'}).select('sc.scheme_name', 'st.*').where('sc.scheme_id', scheme_id).orderBy('st.step_number');
 
@@ -162,6 +170,10 @@ return schemeSteps
   */
 }
 
+
+
+
+
 function add(scheme) {
   // EXERCISE D
   /*
@@ -170,6 +182,11 @@ function add(scheme) {
  return db('schemes').insert(scheme)
 }
 
+
+
+
+
+
 function addStep(scheme_id, step) {
   // EXERCISE E
   /*
@@ -177,6 +194,13 @@ function addStep(scheme_id, step) {
     and resolves to _all the steps_ belonging to the given `scheme_id`,
     including the newly created one.
   */
+  db('steps').insert({
+   instructions: step.instructions,
+   scheme_id: scheme_id,
+   step_number: step.step_number
+ })
+
+ return findSteps(scheme_id)
 }
 
 module.exports = {
